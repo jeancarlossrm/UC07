@@ -30,6 +30,7 @@ namespace Hospedagem.API.Controllers
                 mensagem = "Simulação de custo total efetuada com sucesso. ",
                 produto = entrada.NomeProduto,
                 custoTotal = custoTotal
+                dataSimulacao = DateTime.Now
             };
             return Ok(resposta);
         }
