@@ -15,16 +15,23 @@ namespace Hospedagem.API.Controllers
             {
                 return BadRequest("Dados de entrada necessários ou nome do produto ausente. ");
             }
-                
+
             // if quantidade <=0 se preco de custo <=0, retornem bad request
-            if (entrada.Quantidade <=0 || entrada.PrecoCusto<=0)
+            if (entrada.Quantidade <= 0 || entrada.PrecoCusto <= 0)
             {
                 return BadRequest("A quantidade e o preço de custo devem ser maiores que 0!.");
             }
 
-            RequisicaoEntrada novaRequicao = new RequisicaoEntrada();
+            decimal custoTotal = entrada.Quantidade * entrada.PrecoCusto;
+            // custoTotal = x
 
-            return Ok(novaRequicao);
+            var resposta = new
+            {
+                mensagem = "Simulação de custo total efetuada com sucesso. ",
+                produto = entrada.NomeProduto,
+                custoTotal = custoTotal
+            };
+            return Ok(resposta);
         }
     }
 }
