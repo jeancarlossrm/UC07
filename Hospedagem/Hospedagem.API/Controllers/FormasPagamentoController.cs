@@ -8,7 +8,7 @@ namespace Hospedagem.API.Controllers
     [ApiController]
     public class FormasPagamentoController : ControllerBase
     {
-        List<FormaPagamento> _formasPagamento = new()
+           static List<FormaPagamento> _formasPagamento = new()
         {
             new FormaPagamento { Id = 1, Nome = "Dinheiro", Ativo = true },
             new FormaPagamento { Id = 2, Nome = "Cartão de Crédito", Ativo = true },
@@ -37,6 +37,14 @@ namespace Hospedagem.API.Controllers
         [HttpPost]
         public IActionResult Criar(FormaPagamento novaForma)
         {
+            //validar os dados
+            if (novaForma == null || string.IsNullOrWhiteSpace(novaForma.Nome))
+            {
+                return BadRequest();
+            }
+
+            //salva na lista
+
             _formasPagamento.Add(novaForma);
             return Created();
         }
