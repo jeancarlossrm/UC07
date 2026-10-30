@@ -27,11 +27,22 @@ namespace Pousada.API.Controllers
 
             if (item == null)
             {
-                return NotFound(new { erro = $"Item não localizado pelo {id}" });
+                return NotFound(new { erro = $"Item não localizado pelo codigo {id}" });
             }
             return Ok(item);
         }
-
         [HttpPost]
+        public IActionResult CadastrarItem([FromBody] Item novoItem)
+        {
+            if ((novoItem.Preco) <= 0 || string.IsNullOrWhiteSpace(novoItem.Nome))
+            {
+                return BadRequest(new { erro = $"Não foi possivel cadastrar o novo item devido {novoItem.Nome} ou {novoItem.Preco} estarem incorretos!. " });
+            }
+
+            int proxId = _itens.Count > 0 ? _itens.Max(f => f.Id) + 1 : 1;
+            novoItem.Id = proxId;
+            _itens.Add(novoItem);
+            return CreatedAtAction(nameof(MostrarPorId), new { id = novoItem.Id },novoItem);
+        }
     }
 };
